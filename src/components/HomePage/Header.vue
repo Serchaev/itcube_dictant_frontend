@@ -23,9 +23,9 @@ export default {
     <div class="container">
       <div class="row head d-none d-lg-flex">
         <div class="col-lg-2">
-          <img src="@/assets/it_dozor.svg" alt="">
+          <img src="../../assets/HomePage/it_dozor.svg" alt="">
         </div>
-        <div class="head__links offset-lg-3 offset-xl-4 col-lg-7 col-xl-6">
+        <div class="head__links offset-lg-3 col-lg-7 offset-xl-4 col-xl-6 offset-xxl-5 col-xxl-5">
           <div><a href="#part1">О мероприятии</a></div>
           <div><a href="#part2">Партнеры и организаторы</a></div>
           <div><a href="https://itcube61.ru/" target="_blank">Сайт организации</a></div>
@@ -43,8 +43,8 @@ export default {
 
     </div>
 
-    <div class="background vector1"><img src="@/assets/vector1.png" alt=""></div>
-    <div class="background circle"><img src="@/assets/circle3.png" alt=""></div>
+    <div class="background vector1"><img src="../../assets/HomePage/vector1.png" alt=""></div>
+    <div class="background circle"><img src="../../assets/HomePage/circle3.png" alt=""></div>
   </section>
 </template>
 

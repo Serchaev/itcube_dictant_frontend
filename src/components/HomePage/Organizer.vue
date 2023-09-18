@@ -10,7 +10,7 @@ export default {
       <div class="organizer__title mt-0 mt-md-5">ОРГАНИЗАТОР</div>
       <div class="row organizer__item mt-5">
         <div class="organizer__logo offset-lg-1 col-lg-3 col-12">
-          <img src="@/assets/it_cube_logo_2.svg" alt="">
+          <img src="../../assets/HomePage/it_cube_logo_2.svg" alt="">
         </div>
         <div class="organizer__desc offset-lg-1 col-lg-7 col-12 mt-4 mt-lg-0">
           В центрах цифрового развития <span>«IT-куб»</span> ребята 7–18 лет знакомятся с программированием, разработкой приложений для мобильных устройств, виртуальной и дополненной реальности, учатся программировать роботов.

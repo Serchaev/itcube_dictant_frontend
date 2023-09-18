@@ -1,9 +1,10 @@
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import axios from "axios";
-import BACK_URL from "@/services/index";
+import index from "@/services/index.js";
 import router from "@/router";
+import Login from '@/components/AuthPage/Login.vue'
+import Register from '@/components/AuthPage/Register.vue'
 
 export default {
   data() {
@@ -17,12 +18,14 @@ export default {
       password: "",
       is_load: false,
       is_error: false,
-      usernames: []
+      usernames: [],
+      is_login: true
     }
   },
   name: 'AuthView',
   components: {
-    HelloWorld
+    Login,
+    Register
   },
   props: {
     is_auth: {
@@ -64,6 +67,12 @@ export default {
       } finally {
         this.is_load = false;
       }
+    },
+    submitLogin(data){
+      this.$emit("submitLogin", data)
+    },
+    isLoginFalse(data){
+      this.is_login = data
     }
   },
   created() {
@@ -79,8 +88,10 @@ export default {
 </script>
 
 <template>
-  <h1>auth</h1>
-  <button @click="authorization">press</button>
+  <div class="auth">
+    <Login v-if="is_login" @submitLogin="submitLogin" @isLoginFalse="isLoginFalse"/>
+    <Register v-else-if="!is_login"/>
+  </div>
 </template>
 
 <style scoped>

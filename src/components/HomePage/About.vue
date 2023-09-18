@@ -25,7 +25,7 @@ export default {
       <div class="row about__items mt-3 mt-md-0">
         <div class="about__item col-lg-4 col-12">
           <div class="about__item_number">
-            <img src="@/assets/30.svg" alt="">
+            <img src="../../assets/HomePage/30.svg" alt="">
           </div>
           <div class="about__item_desc">
             <span>Сентября</span> - старт тестирования
@@ -34,7 +34,7 @@ export default {
         </div>
         <div class="about__item col-lg-4 col-12">
           <div class="about__item_number">
-            <img src="@/assets/30.svg" alt="">
+            <img src="../../assets/HomePage/30.svg" alt="">
           </div>
           <div class="about__item_desc">
             <span>Вопросов</span> об It-мире
@@ -43,7 +43,7 @@ export default {
         </div>
         <div class="about__item col-lg-4 col-12">
           <div class="about__item_number">
-            <img src="@/assets/30.svg" alt="">
+            <img src="../../assets/HomePage/30.svg" alt="">
           </div>
           <div class="about__item_desc">
             <span>Минут</span> на прохождение квеста

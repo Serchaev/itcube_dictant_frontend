@@ -11,7 +11,7 @@ export default {
         <div class="footer__about col-lg-5 col-12">
           <div class="row">
             <div class="footer__logo col-lg-4 col-2">
-              <img src="@/assets/footer_logo.svg" alt="">
+              <img src="../../assets/HomePage/footer_logo.svg" alt="">
             </div>
             <div class="footer__desc col-lg-8 offset-1 offset-lg-0 col-9">
               Центр цифрового образования «IT-куб» – новый формат технической подготовки школьников от 8 до 18 лет в направлении информационных технологий.
@@ -23,11 +23,11 @@ export default {
             <span>КОНТАКТНАЯ ИНФОРМАЦИЯ</span>
           </div>
           <div class="mt-3">
-            <img src="@/assets/target.svg" alt="" class="me-2">
+            <img src="../../assets/HomePage/target.svg" alt="" class="me-2">
             <span>г. Ростов-на-Дону, Большая Садовая 53</span>
           </div>
           <div class="mt-3">
-            <img src="@/assets/mail.svg" alt="" class="me-2">
+            <img src="../../assets/HomePage/mail.svg" alt="" class="me-2">
             <span>itcube@dpbulanov.ru</span>
           </div>
 

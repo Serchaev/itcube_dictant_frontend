@@ -14,6 +14,7 @@ export default {
   },
   methods: {
     saveData(data){
+      console.log("app data", data)
       this.user = data.user;
       this.accessToken = data.accessToken;
       this.refreshToken = data.refreshToken;
@@ -33,30 +34,31 @@ export default {
       this.user.age = localStorage.userAge;
       this.user.is_complited_test = localStorage.is_complited_test;
     }
-    if (localStorage.accessToken) {
+    if (localStorage.accessToken.length > 0) {
       this.accessToken = localStorage.accessToken;
     }
-    if (localStorage.refreshToken) {
+    if (localStorage.refreshToken.length > 0) {
       this.refreshToken = localStorage.refreshToken;
-    }
-    try{
-      const response = await axios.post(
-          `${BACKEND_URL}/auth/refresh`,
-          {
-            refreshToken: this.refreshToken
-          }
-      );
-      this.saveData(response.data);
-    }catch (e) {
-      this.saveData({
-        user: {},
-        accessToken: "",
-        refreshToken: "",
-      });
+      this.is_auth = true
     }
 
+
     if (this.accessToken.length > 0 && this.refreshToken.length > 0) {
-      this.is_auth = true
+      try{
+        const response = await axios.post(
+            `${BACKEND_URL}/auth/refresh`,
+            {
+              refreshToken: this.refreshToken
+            }
+        );
+        this.saveData(response.data);
+      }catch (e) {
+        this.saveData({
+          user: {},
+          accessToken: "",
+          refreshToken: "",
+        });
+      }
     }
 
 
@@ -70,6 +72,7 @@ export default {
         @register_user="saveData"
         @refresh="saveData"
         @submitAnswers="saveData"
+        @submitLogin="saveData"
         :accessToken="this.accessToken"
         :refreshToken="this.refreshToken"
         :user="this.user"
@@ -87,6 +90,12 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+input[type="text"] {
+  font-family: inherit; /* 1 */
+  font-size: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  margin: 0; /* 2 */
 }
 </style>
 <script setup>
