@@ -6,7 +6,11 @@ export default {
   name: 'Header',
   methods: {
     router() {
-      router.push('/auth')
+      if (this.is_auth) {
+        router.push('/account')
+      } else if (!this.is_auth){
+        router.push('/auth')
+      }
     }
   },
   props: {
@@ -38,7 +42,7 @@ export default {
         <h2>Веселое путешествие сквозь призму цифровых технологий!</h2>
       </div>
       <div class="auth_btn offset-lg-1 col-lg-5 mt-5 col-12">
-        <button @click="router">{{ is_auth ? "В личный кабинет" : "Зарегистрироваться" }}</button>
+        <button @click="router">{{ is_auth ? "В личный кабинет" : "Участвовать" }}</button>
       </div>
 
     </div>

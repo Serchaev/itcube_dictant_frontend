@@ -5,16 +5,31 @@ import router from "@/router";
 
 export default {
   name: "Login",
+  props:{
+    usernames: {
+      type: Array,
+      require: true
+    }
+  },
   data() {
     return {
       login: "",
       password: "",
+      is_error_incorrect: false,
       is_error: false,
-      is_load: false
+      is_load: false,
+      is_login_correct: true,
+      is_password_correct: true
+
     }
   },
   methods: {
     async submitLogin(){
+      this.loginCorrect(this.login);
+      this.passwordCorrect(this.password);
+      if (!this.is_login_correct || !this.is_password_correct){
+        return null
+      }
       try {
         const response = await axios.post(`${BACKEND_URL}/auth/login`, {
           login: this.login,
@@ -22,12 +37,35 @@ export default {
         });
         this.$emit('submitLogin', response.data)
         console.log(response.data);
+        await router.push('/account');
       } catch (err) {
+        if (err.response.status === 403) {
+          this.is_login_correct = true;
+          alert("Ошибка, неправильный пароль");
+        } else {
+          this.is_error = true;
+          alert("Ошибка, попробуйте позже");
+        }
         console.log(err)
-        this.is_error = true;
       } finally {
         this.is_load = false;
       }
+    },
+    is_equals_username(value1, value2) {
+      return value1.login === value2.login
+    },
+    loginCorrect(login){
+      let tmp = false
+      this.usernames.forEach(e=>{
+        if (e.login === login) {
+          tmp = true
+        }
+      })
+      this.is_login_correct = tmp;
+
+    },
+    passwordCorrect(password){
+      this.is_password_correct = password.length > 7;
     },
     goHome(){
       router.push('/')
@@ -50,10 +88,12 @@ export default {
       <div class="login__input col-lg-8 offset-lg-2">
         <span>ЛОГИН</span>
         <input class="mt-1 p-2 p-lg-3" placeholder="Введите логин" type="text" v-model="login"/>
+        <p v-if="!is_login_correct" style="color: red;">* Пользователя с таким логином нет</p>
       </div>
-      <div class="login__input col-lg-8 offset-lg-2 mt-5">
+      <div class="login__input col-lg-8 offset-lg-2 mt-4">
         <span>ПАРОЛЬ</span>
         <input class="mt-1 p-2 p-lg-3" placeholder="Введите пароль" type="password" v-model="password"/>
+        <p v-if="!is_password_correct" style="color: red;">* Длина пароля должна быть минимум 8 символов</p>
       </div>
       <div class="login__btn col-12 mt-5">
         <button @click="submitLogin">Войти</button>

@@ -14,6 +14,9 @@ export default {
   },
   methods: {
     saveData(data){
+      if (data.refreshToken.length > 0){
+        this.is_auth = true
+      }
       console.log("app data", data)
       this.user = data.user;
       this.accessToken = data.accessToken;
@@ -24,7 +27,6 @@ export default {
       localStorage.accessToken = this.accessToken;
       localStorage.refreshToken = this.refreshToken;
       localStorage.is_complited_test = this.is_complited_test;
-      this.is_auth = this.refreshToken.length > 0;
     }
   },
   async mounted() {
@@ -34,16 +36,21 @@ export default {
       this.user.age = localStorage.userAge;
       this.user.is_complited_test = localStorage.is_complited_test;
     }
-    if (localStorage.accessToken.length > 0) {
-      this.accessToken = localStorage.accessToken;
+    if (localStorage.accessToken) {
+      if (localStorage.accessToken.length > 0) {
+        this.accessToken = localStorage.accessToken;
+      }
     }
-    if (localStorage.refreshToken.length > 0) {
-      this.refreshToken = localStorage.refreshToken;
-      this.is_auth = true
+    if (localStorage.refreshToken) {
+      if (localStorage.refreshToken.length > 0) {
+        this.refreshToken = localStorage.refreshToken;
+      }
     }
+
 
 
     if (this.accessToken.length > 0 && this.refreshToken.length > 0) {
+      this.is_auth = true;
       try{
         const response = await axios.post(
             `${BACKEND_URL}/auth/refresh`,

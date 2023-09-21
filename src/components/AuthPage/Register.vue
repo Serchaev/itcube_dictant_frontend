@@ -5,20 +5,57 @@ import router from "@/router";
 
 export default {
   name: "Register",
+  props: {
+    usernames: {
+      type: Array,
+      require: true
+    }
+  },
   data() {
     return {
       login: "",
       password: "",
+      confirm_password: "",
+      age: 0,
+      first_name: "",
+      last_name: "",
+      email: "",
+      number_phone: "89",
+      school: "",
       is_error: false,
-      is_load: false
+      is_confirm_password_correct: false,
+      is_load: false,
+      step: false,
+      is_first_name_correct: true,
+      is_last_name_correct: true,
+      is_login_correct: true,
+      is_password_correct: true,
+      is_age_correct: true,
+      is_phone_number_correct: true,
+      is_email_correct: true
     }
   },
   methods: {
-    async submitLogin(){
+    async submitRegister(){
+      this.emailCorrect(this.email);
+      this.phoneNumberCorrect(this.number_phone);
+      this.ageCorrect(this.age);
+      this.firstNameCorrect(this.first_name);
+      this.lastNameCorrect(this.last_name);
+      if (!this.is_login_correct || !this.is_password_correct || !this.is_email_correct || !this.is_age_correct || !this.is_phone_number_correct || !this.is_last_name_correct || !this.is_first_name_correct) {
+        return null
+      }
+      alert("sent register")
       try {
-        const response = await axios.post(`${BACKEND_URL}/auth/login`, {
+        const response = await axios.post(`${BACKEND_URL}/auth/registration`, {
+          first_name: this.first_name,
+          last_name: this.last_name,
+          age: this.age,
+          school: this.school,
+          email: this.email,
+          phone_number: this.number_phone.toString(),
           login: this.login,
-          password: this.password
+          password: this.password,
         });
         this.$emit('submitLogin', response.data)
         console.log(response.data);
@@ -29,6 +66,54 @@ export default {
         this.is_load = false;
       }
     },
+    stepNext(){
+      this.loginCorrect(this.login);
+      this.passwordCorrect(this.password);
+      if (!this.is_login_correct || !this.is_password_correct){
+        return null
+      }
+      this.is_confirm_password_correct = false;
+      if (this.password === this.confirm_password) {
+        this.step = true;
+        this.is_confirm_password_correct = true;
+        return null;
+      }
+
+    },
+    loginCorrect(login){
+      this.is_login_correct = true;
+      let tmp = true
+      this.usernames.forEach(e=>{
+        if (e.login === login) {
+          tmp = false
+        }
+      })
+      this.is_login_correct = tmp;
+
+    },
+    emailCorrect(email){
+      this.is_email_correct=email.includes("@");
+
+    },
+    ageCorrect(age){
+      this.is_age_correct = true;
+      if (age < 6 || age > 18){
+        this.is_age_correct = false;
+      }
+    },
+    phoneNumberCorrect(number_phone){
+      this.is_phone_number_correct = number_phone.toString().length === 11;
+
+    },
+    passwordCorrect(password){
+      this.is_password_correct = password.length > 7;
+    },
+    firstNameCorrect(first_name){
+      this.is_first_name_correct = first_name.length > 0;
+    },
+    lastNameCorrect(last_name){
+      this.is_last_name_correct = last_name.length > 0;
+    },
     goHome(){
       router.push('/')
     }
@@ -37,7 +122,7 @@ export default {
 </script>
 
 <template>
-  <div class="register pt-5 pb-5">
+  <div class="register pt-4 pb-5">
     <div class="container">
       <div class="register__logo">
         <img src="@/assets/AuthPage/logo.svg" alt="" @click="goHome">
@@ -45,25 +130,63 @@ export default {
       <div class="register__title mt-4">
         <span>РЕГИСТРАЦИЯ</span>
       </div>
-      <form class="register__form mt-5 mt-lg-0"  @submit.prevent>
-        <div class="register__input col-lg-8 offset-lg-2">
-          <span>ЛОГИН</span>
-          <input class="mt-1 p-2 p-lg-3" placeholder="Введите логин" type="text" v-model="login"/>
+      <form class="register__form mt-4 mt-lg-0 pb-5"  @submit.prevent>
+        <div v-if="!step">
+          <div class="register__input col-lg-8 offset-lg-2">
+            <span>ЛОГИН</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите логин" type="text" v-model="login"/>
+            <p v-if="!is_login_correct" style="color: red;">* Пользователь с таким логином уже существует</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>ПАРОЛЬ</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="password"/>
+            <p v-if="!is_password_correct" style="color: red;">* Длина пароля должна быть минимум 8 символов</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>ПОДТВЕРДИТЕ ПАРОЛЬ</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="confirm_password"/>
+            <p v-if="is_confirm_password_correct" style="color: red;">* Пароли не совпадают</p>
+          </div>
+          <div class="register__btn col-12 mt-5">
+            <button @click="stepNext">Далее</button>
+          </div>
         </div>
-        <div class="register__input col-lg-8 offset-lg-2 mt-5">
-          <span>ПАРОЛЬ</span>
-          <input class="mt-1 p-2 p-lg-3" placeholder="Введите пароль" type="password" v-model="password"/>
-        </div>
-        <div class="register__input col-lg-8 offset-lg-2 mt-5">
-          <span>ПОДТВЕРДИТЕ ПАРОЛЬ</span>
-          <input class="mt-1 p-2 p-lg-3" placeholder="Введите пароль" type="password" v-model="password"/>
-        </div>
-        <div class="register__btn col-12 mt-5">
-          <button @click="submitLogin">Войти</button>
-        </div>
-        <div class="register__info col-12 mt-3">
-          <div><span>Нет аккаунта?</span></div>
-          <div><span @click="this.$emit('isLoginFalse', false)">Зарегистрироваться</span></div>
+        <div v-else-if="step">
+          <div class="register__input col-lg-8 offset-lg-2">
+            <span>ФАМИЛИЯ</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите фамилию" type="text" v-model="last_name"/>
+            <p v-if="!is_first_name_correct" style="color: red;">* Поле должно быть заполненно</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>ИМЯ</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите имя" type="text" v-model="first_name"/>
+            <p v-if="!is_last_name_correct" style="color: red;">* Поле должно быть заполненно</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>ВОЗРАСТ</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите возраст" type="number" v-model.number="age"/>
+            <p v-if="!is_age_correct" style="color: red;">* Возраст участника от 7 лет до 18 лет</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>ЭЛ. ПОЧТА</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите свою почту" type="text" v-model="email"/>
+            <p v-if="!is_email_correct" style="color: red;">* Некоректная почта</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>НОМЕР ТЕЛЕФОНА</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="89" type="number" v-model="number_phone"/>
+            <p v-if="!is_phone_number_correct" style="color: red;">* Номер телефона должен состоять из 11 цифр</p>
+          </div>
+          <div class="register__input col-lg-8 offset-lg-2 mt-4">
+            <span>ШКОЛА</span>
+            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="school"/>
+          </div>
+          <div class="register__btn col-12 mt-5">
+            <button @click="submitRegister">Зарегистрироваться</button>
+          </div>
+          <div class="col-12 mt-0 mt-lg-5">
+
+          </div>
         </div>
       </form>
     </div>
@@ -218,7 +341,7 @@ export default {
   //bottom: -50px;
   }
   .register__btn button{
-    margin-top: 100px;
+    //margin-top: 100px;
   }
 }
 

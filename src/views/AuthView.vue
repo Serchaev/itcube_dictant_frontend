@@ -76,21 +76,32 @@ export default {
     }
   },
   created() {
+    console.log(this.is_auth);
     if (this.is_auth) {
+      console.log(this.is_auth);
       console.log(123);
       router.push('/account');
     }
   },
   mounted() {
+    console.log(this.is_auth);
+    console.log(123);
     this.getUsernames();
+  },
+  watch:{
+    is_auth(){
+      if (this.is_auth) {
+        router.push('/account');
+      }
+    }
   }
 }
 </script>
 
 <template>
   <div class="auth">
-    <Login v-if="is_login" @submitLogin="submitLogin" @isLoginFalse="isLoginFalse"/>
-    <Register v-else-if="!is_login"/>
+    <Login v-if="is_login" @submitLogin="submitLogin" @isLoginFalse="isLoginFalse" :usernames="usernames"/>
+    <Register v-else-if="!is_login" :usernames="usernames"/>
   </div>
 </template>
 
