@@ -71,6 +71,9 @@ export default {
     submitLogin(data){
       this.$emit("submitLogin", data)
     },
+    submitRegister(data){
+      this.$emit("submitRegister", data)
+    },
     isLoginFalse(data){
       this.is_login = data
     }
@@ -101,7 +104,7 @@ export default {
 <template>
   <div class="auth">
     <Login v-if="is_login" @submitLogin="submitLogin" @isLoginFalse="isLoginFalse" :usernames="usernames"/>
-    <Register v-else-if="!is_login" :usernames="usernames"/>
+    <Register v-else-if="!is_login" @submitRegister="submitRegister" :usernames="usernames"/>
   </div>
 </template>
 

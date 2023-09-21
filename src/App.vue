@@ -80,6 +80,7 @@ export default {
         @refresh="saveData"
         @submitAnswers="saveData"
         @submitLogin="saveData"
+        @submitRegister="saveData"
         :accessToken="this.accessToken"
         :refreshToken="this.refreshToken"
         :user="this.user"
