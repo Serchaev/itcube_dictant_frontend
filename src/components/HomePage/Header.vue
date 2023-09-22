@@ -27,7 +27,7 @@ export default {
     <div class="container">
       <div class="row head d-none d-lg-flex">
         <div class="col-lg-2">
-          <img src="../../assets/HomePage/it_dozor.svg" alt="">
+          <img src="@/assets/HomePage/it_dozor.svg" alt="">
         </div>
         <div class="head__links offset-lg-3 col-lg-7 offset-xl-4 col-xl-6 offset-xxl-5 col-xxl-5">
           <div><a href="#part1">О мероприятии</a></div>
