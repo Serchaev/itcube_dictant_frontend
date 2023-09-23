@@ -171,6 +171,7 @@ export default {
             }
         );
         this.$emit("finishTest", response.data.is_complited_test);
+        localStorage.numberQuestion = 0;
         await router.push('/account');
       } catch (err) {
         console.log(err.response.status)
