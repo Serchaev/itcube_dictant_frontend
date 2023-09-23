@@ -6,7 +6,6 @@ export default {
   data() {
     return {
       user: {},
-      is_complited_test: false,
       accessToken: "",
       refreshToken: "",
       is_auth: false,
@@ -26,7 +25,16 @@ export default {
       localStorage.userAge = this.user.age;
       localStorage.accessToken = this.accessToken;
       localStorage.refreshToken = this.refreshToken;
-      localStorage.is_complited_test = this.is_complited_test;
+      localStorage.is_complited_test = this.user.is_complited_test;
+    },
+    logout(is_true){
+      console.log("clear storage")
+      if(!is_true){return null}
+      localStorage.clear();
+      this.is_auth = false
+    },
+    finishTest(data){
+      this.user.is_complited_test = data;
     }
   },
   async mounted() {
@@ -81,11 +89,13 @@ export default {
         @submitAnswers="saveData"
         @submitLogin="saveData"
         @submitRegister="saveData"
+        @logout="logout"
+        @finishTest="finishTest"
         :accessToken="this.accessToken"
         :refreshToken="this.refreshToken"
         :user="this.user"
         :is_auth="this.is_auth"
-        :is_complited_test="this.is_complited_test"
+        :is_complited_test="this.user.is_complited_test"
     />
   </div>
 </template>

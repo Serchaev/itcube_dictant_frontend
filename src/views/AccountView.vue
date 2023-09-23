@@ -2,6 +2,7 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
 import axios from "axios";
+import router from "@/router";
 
 export default {
   data(){
@@ -12,12 +13,20 @@ export default {
   },
   name: 'AccountView',
   props: {
+    is_auth: {
+      type: Boolean,
+      required: true
+    },
     accessToken: {
       type: String,
       required: true
     },
     refreshToken: {
       type: String,
+      required: true
+    },
+    is_complited_test: {
+      type: Boolean,
       required: true
     },
     // userAll: {
@@ -51,17 +60,52 @@ export default {
       }
       this.userData = await resp.json();
     },
-    exitAccount(){
-
+    async exitAccount(){
+      console.log("logout")
+      try {
+        const response = await axios.post(
+            `${BACKEND_URL}/auth/logout`,
+            {
+              refreshToken: this.refreshToken
+            }
+        );
+        this.$emit("logout", true);
+        await router.push('/');
+      } catch (err) {
+        this.is_error = true;
+      } finally {
+        this.is_load = false;
+      }
+    },
+    test(){
+      if (this.is_auth) {
+        router.push('/test');
+      }
+    },
+    goHome(){
+      router.push('/')
+    }
+  },
+  created() {
+    if (!this.is_auth) {
+      router.push('/auth');
     }
   },
   mounted() {
-    this.getUserData();
+
+    if (this.is_auth) {
+      this.getUserData();
+    }
   },
   watch: {
     accessToken(){
       this.getUserData();
-    }
+    },
+    // is_auth(){
+    //   if (!this.is_auth) {
+    //     router.push('/auth');
+    //   }
+    // }
   }
 }
 </script>
@@ -71,7 +115,7 @@ export default {
     <div class="account__header">
       <div class="container">
         <div class="row">
-          <div class="account__logo offset-5 offset-lg-0 col-2">
+          <div class="account__logo offset-5 offset-lg-0 col-2" @click="goHome">
             <img src="@/assets/HomePage/it_dozor.svg" alt="">
           </div>
           <div class="account__exit offset-3 offset-lg-8 col-1 col-lg-2">
@@ -87,10 +131,10 @@ export default {
       </div>
       <div class="account__line mt-4"></div>
       <div class="row account__info mt-5">
-        <div class="account__avatar col-2">
+        <div class="account__avatar col-4 col-lg-2">
           <img src="@/assets/AccountPage/avatar.svg" alt="">
         </div>
-        <div class="account__data col-10">
+        <div class="account__data col-8 col-lg-10">
           <div class="account__fullName">{{userData.first_name}} {{userData.last_name}}</div>
           <div class="account__login mt-1">{{ userData.login }}</div>
           <div class="account__settings">
@@ -102,18 +146,21 @@ export default {
           </div>
         </div>
       </div>
-      <div class="account__events mt-5 pt-4 row">
-        <div class="col-12">Доступные мероприятия</div>
-        <div class="account__eventItem col-6 mt-5">
+      <div class="account__events mt-5 p-2 pt-3 pt-lg-4 row">
+        <div class="account__eventsTitle col-12">Доступные мероприятия</div>
+        <div class="account__eventItem col-12 col-lg-6 mt-4 mt-lg-5">
           <span>Тестирование IT-ДОЗОР</span>
           <div class="account__eventImg">
             <img src="@/assets/AccountPage/event.svg" alt=""/>
           </div>
-          <div class="account__eventGo">
+          <div class="account__eventGo" @click="test" v-if="!is_complited_test">
             <span>ПРОЙТИ ТЕСТ</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="29" viewBox="0 0 17 29" fill="none" class="ms-3">
               <path d="M2 27L15 14.5L2 2" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+          </div>
+          <div class="account__eventGo" v-else>
+            <span>ТЕСТ ПРОЙДЕН</span>
           </div>
         </div>
       </div>
@@ -127,9 +174,10 @@ export default {
   background: var(--Linear, linear-gradient(95deg, #5A2BE1 24.85%, #B537F2 118%));
 }
 .account__logo{
+  cursor: pointer;
   padding: 16px 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 .account__exit{
@@ -244,6 +292,7 @@ export default {
 .account__eventGo{
   cursor: pointer;
   position: absolute;
+  font-family: 'Exo', sans-serif;
   right: 38px;
   bottom: 34px;
   display: flex;
@@ -253,14 +302,81 @@ export default {
 
 @media (max-width: 767px) {
 
-  .account__logo{
-    padding: 14px 0;
+  .account__avatar{
     display: flex;
     justify-content: center;
-    align-items: center;
   }
-  .account__logo img{
-    width: 200px;
+
+  .account__avatar img{
+    width: 100px;
+  }
+  .account__fullName{
+    color: #000;
+    font-family: 'Exo', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 100% */
+  }
+  .account__login{
+    color: rgba(0, 0, 0, 0.50);
+    font-family: 'Exo', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+  }
+  .account__settingsLink{
+    color: #350364;
+    font-family: 'Exo', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+  }
+
+  .account__events{
+    font-family: 'Exo', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px; /* 160% */
+    text-transform: uppercase;
+  }
+
+
+
+  .account__eventItem{
+    position: relative;
+    padding: 20px 24px;
+    height: 150px;
+    border-radius: 20px;
+    background: #8A2BE1;
+  }
+
+
+
+  .account__eventItem span{
+    color: #FFF;
+    font-family: 'Exo', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 100% */
+  }
+
+  .account__eventImg img{
+    width: 95px;
+  }
+
+  .account__eventGo{
+    color: #FFF;
+    font-family: 'Exo', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 100% */
+    right: 24px;
+    bottom: 16px;
   }
 
 }
