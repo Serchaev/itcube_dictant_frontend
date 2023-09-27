@@ -104,6 +104,9 @@ export default {
     },
     setQuestion(){
       console.log(this.test['questions']);
+      console.log(this.test['questions'][this.numberQuestion - 1]);
+      console.log(this.test['questions'][this.numberQuestion - 1]['text']);
+      console.log(this.test['questions'][this.numberQuestion - 1]['answers']);
       this.humanAnswer = '';
       this.question = {
         text: this.test['questions'][this.numberQuestion - 1]['text'],
@@ -171,7 +174,7 @@ export default {
             }
         );
         this.$emit("finishTest", response.data.is_complited_test);
-        localStorage.numberQuestion = 0;
+        localStorage.numberQuestion = 1;
         await router.push('/account');
       } catch (err) {
         console.log(err.response.status)
@@ -210,6 +213,9 @@ export default {
     },
     test: {
       handler(){
+        console.log('this.numberQuestion', this.numberQuestion)
+        console.log('this.test[questions].length', this.test['questions'].length)
+        console.log('this.numberQuestion < this.test[questions].length', this.numberQuestion < this.test['questions'].length)
         if (this.numberQuestion < this.test['questions'].length) {
           this.setQuestion();
           this.timerTest();
