@@ -287,6 +287,7 @@ export default {
               <option value='МАОУ "Школа № 115"'>МАОУ "Школа № 115"</option>
               <option value='МБОУ "Гимназия № 117"'>МБОУ "Гимназия № 117"</option>
               <option value='МБОУ "Гимназия № 118"'>МБОУ "Гимназия № 118"</option>
+              <option value='Другая'>Другая</option>
             </select>
             <p v-if="!is_school_correct" style="color: red;">* Выберите учебное учреждение</p>
           </div>
