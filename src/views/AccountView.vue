@@ -160,7 +160,7 @@ export default {
             </svg>
           </div>
           <div class="account__eventGo" v-else>
-            <span>ТЕСТ ПРОЙДЕН</span>
+            <span>ВЫ НАБРАЛИ {{this.userData['scores']}}</span>
           </div>
         </div>
       </div>
