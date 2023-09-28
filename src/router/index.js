@@ -11,26 +11,26 @@ const routes = [
     name: 'home',
     component: HomeView
   },
-  {
-    path: '/auth',
-    name: 'auth',
-    component: AuthView
-  },
-  {
-    path: '/account',
-    name: 'account',
-    component: AccountView
-  },
-  {
-    path: '/settings',
-    name: 'settings',
-    component: SettingsView
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: TestView
-  }
+  // {
+  //   path: '/auth',
+  //   name: 'auth',
+  //   component: AuthView
+  // },
+  // {
+  //   path: '/account',
+  //   name: 'account',
+  //   component: AccountView
+  // },
+  // {
+  //   path: '/settings',
+  //   name: 'settings',
+  //   component: SettingsView
+  // },
+  // {
+  //   path: '/test',
+  //   name: 'test',
+  //   component: TestView
+  // }
 ]
 
 const router = createRouter({

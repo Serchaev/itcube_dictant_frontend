@@ -32,7 +32,7 @@ export default {
         <div class="head__links offset-lg-3 col-lg-7 offset-xl-4 col-xl-6 offset-xxl-5 col-xxl-5">
           <div><a href="#part1">О мероприятии</a></div>
           <div><a href="#part2">Партнеры и организаторы</a></div>
-          <div><a href="https://itcube61.ru/" target="_blank">Сайт организации</a></div>
+          <div><a href="https://it-cube61.ru/" target="_blank">Сайт организации</a></div>
         </div>
       </div>
       <div class="title offset-lg-1 col-lg-8 col-12">
@@ -41,8 +41,11 @@ export default {
       <div class="subtitle offset-lg-1 col-lg-5 mt-5 col-12">
         <h2>Веселое путешествие сквозь призму цифровых технологий!</h2>
       </div>
-      <div class="auth_btn offset-lg-1 col-lg-5 mt-5 col-12">
-        <button @click="router">{{ is_auth ? "В личный кабинет" : "Участвовать" }}</button>
+<!--      <div class="auth_btn offset-lg-1 col-lg-5 mt-5 col-12">-->
+<!--        <button @click="router">{{ is_auth ? "В личный кабинет" : "Участвовать" }}</button>-->
+<!--      </div>-->
+      <div class="subtitle offset-lg-1 col-lg-5 mt-5 col-12">
+        <h2 style="font-size: 16px">Регистрация будет открыта 30 сентября</h2>
       </div>
 
     </div>

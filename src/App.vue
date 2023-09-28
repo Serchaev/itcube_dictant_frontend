@@ -41,47 +41,47 @@ export default {
       this.userData = data;
     }
   },
-  async mounted() {
-    if (localStorage.userId && localStorage.userLogin && localStorage.userAge) {
-      this.user.id = localStorage.userId;
-      this.user.login = localStorage.userLogin;
-      this.user.age = localStorage.userAge;
-      this.user.is_complited_test = localStorage.is_complited_test;
-    }
-    if (localStorage.accessToken) {
-      if (localStorage.accessToken.length > 0) {
-        this.accessToken = localStorage.accessToken;
-      }
-    }
-    if (localStorage.refreshToken) {
-      if (localStorage.refreshToken.length > 0) {
-        this.refreshToken = localStorage.refreshToken;
-      }
-    }
-
-
-
-    if (this.accessToken.length > 0 && this.refreshToken.length > 0) {
-      this.is_auth = true;
-      try{
-        const response = await axios.post(
-            `${BACKEND_URL}/auth/refresh`,
-            {
-              refreshToken: this.refreshToken
-            }
-        );
-        this.saveData(response.data);
-      }catch (e) {
-        this.saveData({
-          user: {},
-          accessToken: "",
-          refreshToken: "",
-        });
-      }
-    }
-
-
-  },
+  // async mounted() {
+  //   if (localStorage.userId && localStorage.userLogin && localStorage.userAge) {
+  //     this.user.id = localStorage.userId;
+  //     this.user.login = localStorage.userLogin;
+  //     this.user.age = localStorage.userAge;
+  //     this.user.is_complited_test = localStorage.is_complited_test;
+  //   }
+  //   if (localStorage.accessToken) {
+  //     if (localStorage.accessToken.length > 0) {
+  //       this.accessToken = localStorage.accessToken;
+  //     }
+  //   }
+  //   if (localStorage.refreshToken) {
+  //     if (localStorage.refreshToken.length > 0) {
+  //       this.refreshToken = localStorage.refreshToken;
+  //     }
+  //   }
+  //
+  //
+  //
+  //   if (this.accessToken.length > 0 && this.refreshToken.length > 0) {
+  //     this.is_auth = true;
+  //     try{
+  //       const response = await axios.post(
+  //           `${BACKEND_URL}/auth/refresh`,
+  //           {
+  //             refreshToken: this.refreshToken
+  //           }
+  //       );
+  //       this.saveData(response.data);
+  //     }catch (e) {
+  //       this.saveData({
+  //         user: {},
+  //         accessToken: "",
+  //         refreshToken: "",
+  //       });
+  //     }
+  //   }
+  //
+  //
+  // },
 }
 </script>
 
