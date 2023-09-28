@@ -3,6 +3,7 @@ import AccountView from '@/views/AccountView.vue';
 import TestView from '@/views/TestView.vue';
 import AuthView from '@/views/AuthView.vue';
 import HomeView from '@/views/HomeView.vue';
+import SettingsView from "@/views/SettingsView.vue";
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: '/account',
     name: 'account',
     component: AccountView
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: SettingsView
   },
   {
     path: '/test',

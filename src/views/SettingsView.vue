@@ -8,16 +8,21 @@ export default {
   name: "Register",
   components: {Loader},
   props: {
-    usernames: {
-      type: Array,
+    userData: {
+      type: Object,
       require: true
-    }
+    },
+    accessToken: {
+      type: String,
+      required: true
+    },
+    refreshToken: {
+      type: String,
+      required: true
+    },
   },
   data() {
     return {
-      login: "",
-      password: "",
-      confirm_password: "",
       age: 0,
       first_name: "",
       last_name: "",
@@ -35,7 +40,8 @@ export default {
       is_age_correct: true,
       is_phone_number_correct: true,
       is_school_correct: true,
-      is_email_correct: true
+      is_email_correct: true,
+      reload: true
     }
   },
   methods: {
@@ -46,45 +52,55 @@ export default {
       this.firstNameCorrect(this.first_name);
       this.lastNameCorrect(this.last_name);
       this.SchoolCorrect(this.school);
-      if (!this.is_login_correct || !this.is_password_correct || !this.is_email_correct || !this.is_age_correct || !this.is_phone_number_correct || !this.is_last_name_correct || !this.is_first_name_correct || !this.is_school_correct) {
+      if (!this.is_email_correct || !this.is_age_correct || !this.is_phone_number_correct || !this.is_last_name_correct || !this.is_first_name_correct || !this.is_school_correct) {
         return null
       }
       try {
-        this.is_load = true;
-        const response = await axios.post(`${BACKEND_URL}/auth/registration`, {
-          first_name: this.first_name,
-          last_name: this.last_name,
-          age: this.age,
-          school: this.school,
-          email: this.email,
-          phone_number: this.number_phone.toString(),
-          login: this.login,
-          password: this.password,
-        });
-        this.$emit('submitRegister', response.data)
+        this.is_load = true
+        const response = await axios.put(`${BACKEND_URL}/auth/updateUserData`,
+          {
+            first_name: this.first_name,
+            last_name: this.last_name,
+            age: this.age,
+            school: this.school,
+            email: this.email,
+            phone_number: this.number_phone.toString(),
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${this.accessToken}`,
+            }
+          }
+        );
+        // this.$emit('submitRegister', response.data)
         console.log(response.data);
         await router.push('/account');
       } catch (err) {
-        console.log(err)
+        console.log(err.response.status)
+        if (err.response.status === 401) {
+          try {
+            const response = await axios.post(
+                `${BACKEND_URL}/auth/refresh`,
+                {
+                  refreshToken: this.refreshToken
+                }
+            );
+            this.$emit("refresh", response.data);
+            if (this.reload) {
+              this.reload = false
+              await this.submitRegister();
+              return null
+            }
+          } catch (e) {
+            alert("Произошла ошибка, попробуйте позже, перезайдите в аккаунт или напишите в тех. поддержку")
+          }
+        }
         this.is_error = true;
-        alert("Ошибка, попробуйте позже");
+        alert("Произошла ошибка, попробуйте позже, перезайдите в аккаунт или напишите в тех. поддержку")
       } finally {
         this.is_load = false;
       }
-    },
-    stepNext(){
-      this.loginCorrect(this.login);
-      this.passwordCorrect(this.password);
-      if (!this.is_login_correct || !this.is_password_correct){
-        return null
-      }
-      this.is_confirm_password_correct = false;
-      if (this.password === this.confirm_password) {
-        this.step = true;
-        this.is_confirm_password_correct = true;
-        return null;
-      }
-
     },
     loginCorrect(login){
       this.is_login_correct = true;
@@ -125,7 +141,18 @@ export default {
     },
     goHome(){
       router.push('/')
+    },
+    fillData(){
+      this.age = this.userData['age'];
+      this.first_name = this.userData['first_name'];
+      this.last_name = this.userData['last_name'];
+      this.email = this.userData['email'];
+      this.number_phone = this.userData['phone_number'];
+      this.school = this.userData['school'];
     }
+  },
+  mounted() {
+    this.fillData();
   }
 }
 </script>
@@ -136,31 +163,8 @@ export default {
       <div class="register__logo">
         <img src="@/assets/AuthPage/logo.svg" alt="" @click="goHome">
       </div>
-      <div class="register__title mt-4">
-        <span>РЕГИСТРАЦИЯ</span>
-      </div>
       <form class="register__form mt-4 mt-lg-0 pb-5"  @submit.prevent>
-        <div v-if="!step">
-          <div class="register__input col-lg-8 offset-lg-2">
-            <span>ЛОГИН</span>
-            <input class="mt-1 p-2 p-lg-2" placeholder="Введите логин" type="text" v-model="login"/>
-            <p v-if="!is_login_correct" style="color: red;">* Пользователь с таким логином уже существует</p>
-          </div>
-          <div class="register__input col-lg-8 offset-lg-2 mt-4">
-            <span>ПАРОЛЬ</span>
-            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="password"/>
-            <p v-if="!is_password_correct" style="color: red;">* Длина пароля должна быть минимум 8 символов</p>
-          </div>
-          <div class="register__input col-lg-8 offset-lg-2 mt-4">
-            <span>ПОДТВЕРДИТЕ ПАРОЛЬ</span>
-            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="confirm_password"/>
-            <p v-if="!is_confirm_password_correct" style="color: red;">* Пароли не совпадают</p>
-          </div>
-          <div class="register__btn col-12 mt-5">
-            <button @click="stepNext">Далее</button>
-          </div>
-        </div>
-        <div v-else-if="step">
+        <div>
           <div class="register__input col-lg-8 offset-lg-2">
             <span>ФАМИЛИЯ</span>
             <input class="mt-1 p-2 p-lg-2" placeholder="Введите фамилию" type="text" v-model="last_name"/>
@@ -295,20 +299,11 @@ export default {
             <p v-if="!is_school_correct" style="color: red;">* Выберите учебное учреждение</p>
           </div>
           <div class="register__btn col-12 mt-5">
-            <button @click="submitRegister">Зарегистрироваться</button>
-          </div>
-          <div class="col-12 offset-lg-3 col-lg6 mt-1 mt-lg-1 pb-5">
-            <div>
-              Нажимая на кнопку, вы даёте своё <a href="https://it-cube61.ru/approve">согласие на обработку персональных данных</a>
-            </div>
+            <button @click="submitRegister">Сохранить</button>
           </div>
         </div>
       </form>
     </div>
-    <div class="background d-none d-lg-block">
-      <img src="@/assets/AuthPage/background.svg" alt="">
-    </div>
-
     <Loader v-if="is_load" />
   </div>
 </template>
@@ -481,7 +476,7 @@ export default {
   //bottom: -50px;
   }
   .register__btn button{
-    //margin-top: 100px;
+  //margin-top: 100px;
   }
 }
 

@@ -9,6 +9,7 @@ export default {
       accessToken: "",
       refreshToken: "",
       is_auth: false,
+      userData: {}
     }
   },
   methods: {
@@ -35,6 +36,9 @@ export default {
     },
     finishTest(data){
       this.user.is_complited_test = data;
+    },
+    setUserData(data){
+      this.userData = data;
     }
   },
   async mounted() {
@@ -91,11 +95,13 @@ export default {
         @submitRegister="saveData"
         @logout="logout"
         @finishTest="finishTest"
+        @setUserData="setUserData"
         :accessToken="this.accessToken"
         :refreshToken="this.refreshToken"
         :user="this.user"
         :is_auth="this.is_auth"
         :is_complited_test="this.user.is_complited_test"
+        :userData="this.userData"
     />
   </div>
 </template>

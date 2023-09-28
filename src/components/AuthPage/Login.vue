@@ -2,9 +2,11 @@
 
 import axios from "axios";
 import router from "@/router";
+import Loader from "@/components/Loader.vue";
 
 export default {
   name: "Login",
+  components: {Loader},
   props:{
     usernames: {
       type: Array,
@@ -31,6 +33,7 @@ export default {
         return null
       }
       try {
+        this.is_load = true;
         const response = await axios.post(`${BACKEND_URL}/auth/login`, {
           login: this.login,
           password: this.password
@@ -108,6 +111,7 @@ export default {
     <img src="@/assets/AuthPage/background.svg" alt="">
   </div>
 
+  <Loader v-if="is_load" />
 </div>
 </template>
 

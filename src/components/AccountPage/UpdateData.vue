@@ -2,11 +2,9 @@
 
 import axios from "axios";
 import router from "@/router";
-import Loader from "@/components/Loader.vue";
 
 export default {
   name: "Register",
-  components: {Loader},
   props: {
     usernames: {
       type: Array,
@@ -50,7 +48,6 @@ export default {
         return null
       }
       try {
-        this.is_load = true;
         const response = await axios.post(`${BACKEND_URL}/auth/registration`, {
           first_name: this.first_name,
           last_name: this.last_name,
@@ -136,31 +133,8 @@ export default {
       <div class="register__logo">
         <img src="@/assets/AuthPage/logo.svg" alt="" @click="goHome">
       </div>
-      <div class="register__title mt-4">
-        <span>РЕГИСТРАЦИЯ</span>
-      </div>
       <form class="register__form mt-4 mt-lg-0 pb-5"  @submit.prevent>
-        <div v-if="!step">
-          <div class="register__input col-lg-8 offset-lg-2">
-            <span>ЛОГИН</span>
-            <input class="mt-1 p-2 p-lg-2" placeholder="Введите логин" type="text" v-model="login"/>
-            <p v-if="!is_login_correct" style="color: red;">* Пользователь с таким логином уже существует</p>
-          </div>
-          <div class="register__input col-lg-8 offset-lg-2 mt-4">
-            <span>ПАРОЛЬ</span>
-            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="password"/>
-            <p v-if="!is_password_correct" style="color: red;">* Длина пароля должна быть минимум 8 символов</p>
-          </div>
-          <div class="register__input col-lg-8 offset-lg-2 mt-4">
-            <span>ПОДТВЕРДИТЕ ПАРОЛЬ</span>
-            <input class="mt-1 p-2 p-lg-2" placeholder="Введите пароль" type="password" v-model="confirm_password"/>
-            <p v-if="!is_confirm_password_correct" style="color: red;">* Пароли не совпадают</p>
-          </div>
-          <div class="register__btn col-12 mt-5">
-            <button @click="stepNext">Далее</button>
-          </div>
-        </div>
-        <div v-else-if="step">
+        <div>
           <div class="register__input col-lg-8 offset-lg-2">
             <span>ФАМИЛИЯ</span>
             <input class="mt-1 p-2 p-lg-2" placeholder="Введите фамилию" type="text" v-model="last_name"/>
@@ -295,21 +269,11 @@ export default {
             <p v-if="!is_school_correct" style="color: red;">* Выберите учебное учреждение</p>
           </div>
           <div class="register__btn col-12 mt-5">
-            <button @click="submitRegister">Зарегистрироваться</button>
-          </div>
-          <div class="col-12 offset-lg-3 col-lg6 mt-1 mt-lg-1 pb-5">
-            <div>
-              Нажимая на кнопку, вы даёте своё <a href="https://it-cube61.ru/approve">согласие на обработку персональных данных</a>
-            </div>
+            <button @click="submitRegister">Сохранить</button>
           </div>
         </div>
       </form>
     </div>
-    <div class="background d-none d-lg-block">
-      <img src="@/assets/AuthPage/background.svg" alt="">
-    </div>
-
-    <Loader v-if="is_load" />
   </div>
 </template>
 
@@ -481,7 +445,7 @@ export default {
   //bottom: -50px;
   }
   .register__btn button{
-    //margin-top: 100px;
+  //margin-top: 100px;
   }
 }
 
