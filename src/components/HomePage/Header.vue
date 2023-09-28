@@ -47,9 +47,7 @@ export default {
       <div class="subtitle offset-lg-1 col-lg-5 mt-5 col-12">
         <h2 style="font-size: 16px">Регистрация будет открыта 30 сентября</h2>
       </div>
-
     </div>
-
     <div class="background vector1"><img src="../../assets/HomePage/vector1.png" alt=""></div>
     <div class="background circle"><img src="../../assets/HomePage/circle3.png" alt=""></div>
   </section>
