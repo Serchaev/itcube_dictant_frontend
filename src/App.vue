@@ -17,7 +17,7 @@ export default {
       if (data.refreshToken.length > 0){
         this.is_auth = true
       }
-      console.log("app data", data)
+      // console.log("app data", data)
       this.user = data.user;
       this.accessToken = data.accessToken;
       this.refreshToken = data.refreshToken;
@@ -29,7 +29,7 @@ export default {
       localStorage.is_complited_test = this.user.is_complited_test;
     },
     logout(is_true){
-      console.log("clear storage")
+      // console.log("clear storage")
       if(!is_true){return null}
       localStorage.clear();
       this.is_auth = false

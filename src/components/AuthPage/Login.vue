@@ -39,7 +39,7 @@ export default {
           password: this.password
         });
         this.$emit('submitLogin', response.data)
-        console.log(response.data);
+        // console.log(response.data);
         await router.push('/account');
       } catch (err) {
         if (err.response.status === 403) {
@@ -49,7 +49,7 @@ export default {
           this.is_error = true;
           alert("Ошибка, попробуйте позже");
         }
-        console.log(err)
+        // console.log(err)
       } finally {
         this.is_load = false;
       }

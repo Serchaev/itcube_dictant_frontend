@@ -62,10 +62,10 @@ export default {
           password: this.password,
         });
         this.$emit('submitRegister', response.data)
-        console.log(response.data);
+        // console.log(response.data);
         await router.push('/account');
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         this.is_error = true;
         alert("Ошибка, попробуйте позже");
       } finally {

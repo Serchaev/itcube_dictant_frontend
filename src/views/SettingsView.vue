@@ -74,10 +74,10 @@ export default {
           }
         );
         // this.$emit('submitRegister', response.data)
-        console.log(response.data);
+        // console.log(response.data);
         await router.push('/account');
       } catch (err) {
-        console.log(err.response.status)
+        // console.log(err.response.status)
         if (err.response.status === 401) {
           try {
             const response = await axios.post(

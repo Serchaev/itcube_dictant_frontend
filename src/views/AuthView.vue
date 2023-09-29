@@ -51,7 +51,7 @@ export default {
         );
         this.$emit("register_user", response.data);
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         this.is_error = true;
       } finally {
         this.is_load = false;
@@ -62,7 +62,7 @@ export default {
         const response = await axios.get(`${BACKEND_URL}/auth/getUsers`);
         this.usernames = response.data;
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         this.is_error = true;
       } finally {
         this.is_load = false;
@@ -79,16 +79,16 @@ export default {
     }
   },
   created() {
-    console.log(this.is_auth);
+    // console.log(this.is_auth);
     if (this.is_auth) {
-      console.log(this.is_auth);
-      console.log(123);
+      // console.log(this.is_auth);
+      // console.log(123);
       router.push('/account');
     }
   },
   mounted() {
-    console.log(this.is_auth);
-    console.log(123);
+    // console.log(this.is_auth);
+    // console.log(123);
     this.getUsernames();
   },
   watch:{

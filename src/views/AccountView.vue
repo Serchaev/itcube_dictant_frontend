@@ -69,7 +69,7 @@ export default {
       this.is_load = false;
     },
     async exitAccount(){
-      console.log("logout")
+      // console.log("logout")
       try {
         this.is_load = true;
         const response = await axios.post(
@@ -98,13 +98,16 @@ export default {
       router.push('/settings')
     },
     lastDigit(){
-      if (this.userData['scores']%10===1) {
+      if (this.userData['scores']%10===0) {
+        this.ball = 'БАЛЛОВ'
+      }
+      else if (this.userData['scores']%10===1) {
         this.ball = 'БАЛЛ'
       }
       else if (this.userData['scores']%10>1 && this.userData['scores']%10<5) {
         this.ball = 'БАЛЛА'
       }
-      if (this.userData['scores']%10>=5 && this.userData['scores']%10<=9) {
+      else if (this.userData['scores']%10>=5 && this.userData['scores']%10<=9) {
         this.ball = 'БАЛЛОВ'
       }
     }

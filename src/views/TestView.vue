@@ -19,7 +19,8 @@ export default {
       humanAnswer: "",
       is_load: false,
       is_load_nextQuestion: false,
-      reload: true
+      reload: true,
+      test_selected: false
     }
   },
   name: 'TestView',
@@ -58,7 +59,7 @@ export default {
         );
         this.test = response.data;
       } catch (err) {
-        console.log(err.response.status)
+        // console.log(err.response.status)
         if (err.response.status === 401) {
           const response = await axios.post(
               `${BACKEND_URL}/auth/refresh`,
@@ -103,10 +104,10 @@ export default {
       }
     },
     setQuestion(){
-      console.log(this.test['questions']);
-      console.log(this.test['questions'][this.numberQuestion - 1]);
-      console.log(this.test['questions'][this.numberQuestion - 1]['text']);
-      console.log(this.test['questions'][this.numberQuestion - 1]['answers']);
+      // console.log(this.test['questions']);
+      // console.log(this.test['questions'][this.numberQuestion - 1]);
+      // console.log(this.test['questions'][this.numberQuestion - 1]['text']);
+      // console.log(this.test['questions'][this.numberQuestion - 1]['answers']);
       this.humanAnswer = '';
       this.question = {
         text: this.test['questions'][this.numberQuestion - 1]['text'],
@@ -133,7 +134,7 @@ export default {
         );
 
       } catch (err) {
-        console.log(err.response.status)
+        // console.log(err.response.status)
         if (err.response.status === 401) {
           try {
             const response = await axios.post(
@@ -177,7 +178,7 @@ export default {
         localStorage.numberQuestion = 1;
         await router.push('/account');
       } catch (err) {
-        console.log(err.response.status)
+        // console.log(err.response.status)
         if (err.response.status === 401) {
           const response = await axios.post(
               `${BACKEND_URL}/auth/refresh`,
@@ -201,7 +202,7 @@ export default {
   },
   mounted() {
     if (localStorage.numberQuestion) {
-      console.log('localStorage.numberQuestion', localStorage.numberQuestion)
+      // console.log('localStorage.numberQuestion', localStorage.numberQuestion)
 
       this.numberQuestion = +localStorage.numberQuestion
 
@@ -214,9 +215,9 @@ export default {
     },
     test: {
       handler(){
-        console.log('this.numberQuestion', this.numberQuestion)
-        console.log('this.test[questions].length', this.test['questions'].length)
-        console.log('this.numberQuestion < this.test[questions].length', this.numberQuestion < this.test['questions'].length)
+        // console.log('this.numberQuestion', this.numberQuestion)
+        // console.log('this.test[questions].length', this.test['questions'].length)
+        // console.log('this.numberQuestion < this.test[questions].length', this.numberQuestion < this.test['questions'].length)
         if (this.numberQuestion < this.test['questions'].length) {
           this.setQuestion();
           this.timerTest();
