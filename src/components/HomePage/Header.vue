@@ -44,9 +44,7 @@ export default {
       <div class="auth_btn offset-lg-1 col-lg-5 mt-5 col-12">
         <button @click="router">{{ is_auth ? "В личный кабинет" : "Участвовать" }}</button>
       </div>
-
     </div>
-
     <div class="background vector1"><img src="../../assets/HomePage/vector1.png" alt=""></div>
     <div class="background circle"><img src="../../assets/HomePage/circle3.png" alt=""></div>
   </section>
