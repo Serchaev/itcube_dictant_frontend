@@ -46,7 +46,7 @@ export default {
             <img src="../../assets/HomePage/30.svg" alt="">
           </div>
           <div class="about__item_desc">
-            <span>Минут</span> на прохождение квеста
+            <span>Минут</span> на прохождение теста
           </div>
 
         </div>
