@@ -203,7 +203,8 @@ export default {
     if (localStorage.numberQuestion) {
       console.log('localStorage.numberQuestion', localStorage.numberQuestion)
 
-      this.numberQuestion = localStorage.numberQuestion
+      this.numberQuestion = +localStorage.numberQuestion
+
     }
     this.getQuestions();
   },
