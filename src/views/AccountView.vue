@@ -189,6 +189,7 @@ export default {
             <span>НАБРАНО {{this.userData['scores']}} {{this.ball}}</span>
           </div>
         </div>
+        <div class="col-12 mt-4 mt-lg-5">Дипломы и сертификаты будут доступны для скачивания 8 октября</div>
       </div>
     </div>
     <Loader v-if="is_load" />
