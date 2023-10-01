@@ -101,10 +101,6 @@ export default {
       <div class="login__btn col-12 mt-5">
         <button @click="submitLogin">Войти</button>
       </div>
-      <div class="login__info col-12 mt-3">
-        <div><span>Нет аккаунта?</span></div>
-        <div><span @click="this.$emit('isLoginFalse', false)">Зарегистрироваться</span></div>
-      </div>
     </form>
   </div>
   <div class="background d-none d-lg-block">

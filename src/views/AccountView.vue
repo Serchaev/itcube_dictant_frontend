@@ -179,11 +179,11 @@ export default {
           <div class="account__eventImg">
             <img src="@/assets/AccountPage/event.svg" alt=""/>
           </div>
-          <div class="account__eventGo" @click="test" v-if="!is_complited_test">
-            <span>ПРОЙТИ ТЕСТ</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="29" viewBox="0 0 17 29" fill="none" class="ms-3">
-              <path d="M2 27L15 14.5L2 2" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <div class="account__eventGo" v-if="!is_complited_test">
+            <span>ТЕСТ ЗАВЕРШЕН</span>
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="29" viewBox="0 0 17 29" fill="none" class="ms-3">-->
+<!--              <path d="M2 27L15 14.5L2 2" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--            </svg>-->
           </div>
           <div class="account__eventGo" v-else>
             <span>НАБРАНО {{this.userData['scores']}} {{this.ball}}</span>
@@ -318,7 +318,6 @@ export default {
 }
 
 .account__eventGo{
-  cursor: pointer;
   position: absolute;
   font-family: 'Exo', sans-serif;
   right: 38px;
