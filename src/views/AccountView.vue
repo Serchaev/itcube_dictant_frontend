@@ -54,14 +54,21 @@ export default {
         },
       });
       if (resp.status === 401) {
-        const response = await axios.post(
-          `${BACKEND_URL}/auth/refresh`,
-          {
-            refreshToken: this.refreshToken
-          }
-        );
-        this.$emit("refresh", response.data);
-        return null
+        try {
+          const response = await axios.post(
+              `${BACKEND_URL}/auth/refresh`,
+              {
+                refreshToken: this.refreshToken
+              }
+          );
+          this.$emit("refresh", response.data);
+          return null
+        } catch (e) {
+          await router.push('/');
+        } finally {
+
+        }
+
       }
       this.userData = await resp.json();
       this.$emit('setUserData', this.userData)
@@ -190,6 +197,7 @@ export default {
           </div>
         </div>
         <div class="col-12 mt-4 mt-lg-5">Дипломы и сертификаты будут доступны для скачивания 8 октября</div>
+        <div class="col-12 mt-4 mt-lg-5">Скачать <a href="http://localhost:8000/Certificates/Aleeena/certificate.png">СЕРТИФИКАТ</a></div>
       </div>
     </div>
     <Loader v-if="is_load" />

@@ -180,14 +180,18 @@ export default {
       } catch (err) {
         // console.log(err.response.status)
         if (err.response.status === 401) {
-          const response = await axios.post(
-              `${BACKEND_URL}/auth/refresh`,
-              {
-                refreshToken: this.refreshToken
-              }
-          );
-          this.$emit("refresh", response.data);
-          await this.sendFinish();
+          try {
+            const response = await axios.post(
+                `${BACKEND_URL}/auth/refresh`,
+                {
+                  refreshToken: this.refreshToken
+                }
+            );
+            this.$emit("refresh", response.data);
+            await this.sendFinish();
+          }catch (e) {
+            await router.push('/');
+          }
         }
         this.is_error = true;
       } finally {
