@@ -190,6 +190,7 @@ export default {
             this.$emit("refresh", response.data);
             await this.sendFinish();
           }catch (e) {
+            this.$emit("logout", true);
             await router.push('/');
           }
         }

@@ -64,6 +64,7 @@ export default {
           this.$emit("refresh", response.data);
           return null
         } catch (e) {
+          this.$emit("logout", true);
           await router.push('/');
         } finally {
 
@@ -116,6 +117,38 @@ export default {
       }
       else if (this.userData['scores']%10>=5 && this.userData['scores']%10<=9) {
         this.ball = 'БАЛЛОВ'
+      }
+    },
+    async downloadCertificate() {
+      // this.is_load = true
+      try {
+        const response = await axios.get(
+            `${BACKEND_URL}/api/v1/downloadCertificate`,
+            {
+              headers: {
+                Authorization: `Bearer ${this.accessToken}`
+              }
+            }
+        );
+      } catch (err) {
+        if (err.response.status === 401) {
+          try {
+            const response = await axios.post(
+                `${BACKEND_URL}/auth/refresh`,
+                {
+                  refreshToken: this.refreshToken
+                }
+            );
+            this.$emit("refresh", response.data);
+            await this.sendFinish();
+          }catch (e) {
+            this.$emit("logout", true);
+            await router.push('/');
+          }
+        }
+        this.is_error = true;
+      } finally {
+        this.is_load = false;
       }
     }
   },
@@ -196,8 +229,8 @@ export default {
             <span>НАБРАНО {{this.userData['scores']}} {{this.ball}}</span>
           </div>
         </div>
-        <div class="col-12 mt-4 mt-lg-5">Дипломы и сертификаты будут доступны для скачивания 8 октября</div>
-<!--        <div class="col-12 mt-4 mt-lg-5">Скачать <a :href="'https://itcube-dictant-backend.vercel.app' + '/Certificates/' + `${this.userData['login']}` + '/certificate.png'" download>СЕРТИФИКАТ</a></div>-->
+        <div class="col-12 mt-4 mt-lg-5">Скачать <a :href="'http://151.0.50.17:25565/Certificates/' + `${this.userData['login']}` " download>СЕРТИФИКАТ</a></div>
+        <div class="col-12 mt-4 mt-lg-5" v-if="this.userData['scores'] >= 90">Уважаемые участники Олимпиады! Обращаем Ваше внимание, что дипломы будут прикреплены в личный кабинет после издания приказа Управлением Образования Ростовской области.</div>
       </div>
     </div>
     <Loader v-if="is_load" />
