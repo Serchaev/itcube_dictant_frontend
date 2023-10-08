@@ -76,6 +76,14 @@ export default {
       this.$emit('setUserData', this.userData)
       this.lastDigit();
       this.is_load = false;
+      let tmp = '';
+      tmp = this.userData['login'];
+      tmp = tmp.replaceAll(' ', '');
+      tmp = tmp.replaceAll(':', '');
+      tmp = tmp.replaceAll('/', '');
+      tmp = tmp.replaceAll('\\', '');
+      this.loginTmp = tmp;
+      console.log(this.loginTmp);
     },
     async exitAccount(){
       // console.log("logout")
@@ -162,14 +170,6 @@ export default {
 
     if (this.is_auth) {
       this.getUserData();
-      let tmp = '';
-      tmp = this.userData['login'];
-      tmp = tmp.replaceAll(' ', '');
-      tmp = tmp.replaceAll(':', '');
-      tmp = tmp.replaceAll('/', '');
-      tmp = tmp.replaceAll('\\', '');
-      this.loginTmp = tmp;
-      console.log(this.loginTmp);
     }
   },
   watch: {
