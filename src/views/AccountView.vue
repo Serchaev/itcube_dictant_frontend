@@ -238,7 +238,7 @@ export default {
             <span>НАБРАНО {{this.userData['scores']}} {{this.ball}}</span>
           </div>
         </div>
-        <div class="col-12 mt-4 mt-lg-5">Скачать <a :href="'http://151.0.50.17:25565' + '/public/Certificates/' + `${this.loginTmp}` ">СЕРТИФИКАТ</a></div>
+        <div class="col-12 mt-4 mt-lg-5">Открыть <a :href="'http://151.0.50.17:25565' + '/Certificates/' + `${this.loginTmp}` + 'certificate.png' ">СЕРТИФИКАТ</a></div>
         <div class="col-12 mt-4 mt-lg-5" style="font-size: 20px">Уважаемые участники Олимпиады! Если у вас не скачивается сертификат, воспользуйтесь Яндекс браузером или обратитесь в техническую поддержку.</div>
         <div class="col-12 mt-4 mt-lg-5" v-if="this.userData['scores'] >= 90">Уважаемые участники Олимпиады! Обращаем Ваше внимание, что дипломы будут прикреплены в личный кабинет после издания приказа Управлением Образования Ростовской области.</div>
       </div>
