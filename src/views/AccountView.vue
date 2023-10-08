@@ -11,7 +11,8 @@ export default {
       userData: {},
       is_loadUserData: false,
       ball: '',
-      is_load: false
+      is_load: false,
+      loginTmp: ''
     }
   },
   name: 'AccountView',
@@ -161,6 +162,14 @@ export default {
 
     if (this.is_auth) {
       this.getUserData();
+      let tmp = '';
+      tmp = this.userData['login'];
+      tmp = tmp.replaceAll(' ', '');
+      tmp = tmp.replaceAll(':', '');
+      tmp = tmp.replaceAll('/', '');
+      tmp = tmp.replaceAll('\\', '');
+      this.loginTmp = tmp;
+      console.log(this.loginTmp);
     }
   },
   watch: {
@@ -229,7 +238,7 @@ export default {
             <span>НАБРАНО {{this.userData['scores']}} {{this.ball}}</span>
           </div>
         </div>
-        <div class="col-12 mt-4 mt-lg-5">Скачать <a :href="'http://151.0.50.17:25565' + '/Certificates/' + `${this.userData['login']}` " download>СЕРТИФИКАТ</a></div>
+        <div class="col-12 mt-4 mt-lg-5">Скачать <a :href="'http://151.0.50.17:25565' + '/Certificates/' + `${this.loginTmp}` " download>СЕРТИФИКАТ</a></div>
         <div class="col-12 mt-4 mt-lg-5" v-if="this.userData['scores'] >= 90">Уважаемые участники Олимпиады! Обращаем Ваше внимание, что дипломы будут прикреплены в личный кабинет после издания приказа Управлением Образования Ростовской области.</div>
       </div>
     </div>
