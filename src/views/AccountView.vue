@@ -82,6 +82,8 @@ export default {
       tmp = tmp.replaceAll(':', '');
       tmp = tmp.replaceAll('/', '');
       tmp = tmp.replaceAll('\\', '');
+      tmp = tmp.replaceAll('\'', '');
+      tmp = tmp.replaceAll('\"', '');
       this.loginTmp = tmp;
       console.log(this.loginTmp);
     },
