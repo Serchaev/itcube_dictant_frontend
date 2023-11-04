@@ -241,8 +241,9 @@ export default {
           </div>
         </div>
         <div class="col-12 mt-4 mt-lg-5">Открыть <a :href="'http://151.0.50.17:25565' + '/Certificates/' + `${this.loginTmp}` + '/certificate.png' " target="_blank">СЕРТИФИКАТ</a></div>
-        <div class="col-12 mt-4 mt-lg-5" style="font-size: 20px">Уважаемые участники Олимпиады! Если у вас не открывается сертификат, обратитесь в техническую поддержку по номеру 8 (951) 831-11-62 или по почте it-cube61@yandex.ru</div>
-        <div class="col-12 mt-4 mt-lg-5" v-if="this.userData['scores'] >= 90">Уважаемые участники Олимпиады! Обращаем Ваше внимание, что дипломы будут прикреплены в личный кабинет после издания приказа Управлением Образования Ростовской области.</div>
+        <div class="col-12 mt-4 mt-lg-5" v-if="this.userData['scores'] >= 90">Открыть <a :href="'http://151.0.50.17:25565' + '/Diploms/' + `${this.loginTmp}` + '/Diplom.png' " target="_blank">ДИПЛОМ</a></div>
+        <div class="col-12 mt-4 mt-lg-5" style="font-size: 20px">Уважаемые участники Олимпиады! Если у вас не открывается сертификат или диплом, обратитесь в техническую поддержку по номеру 8 (951) 831-11-62 или по почте it-cube61@yandex.ru</div>
+<!--        <div class="col-12 mt-4 mt-lg-5" v-if="this.userData['scores'] >= 90">Уважаемые участники Олимпиады! Обращаем Ваше внимание, что дипломы будут прикреплены в личный кабинет после издания приказа Управлением Образования Ростовской области.</div>-->
       </div>
     </div>
     <Loader v-if="is_load" />
